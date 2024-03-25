@@ -9,8 +9,8 @@ const csvData = new SharedArray("ListRange", function () {
 });
 
 export const options = {
-  vus: 200,
-  iterations: 200,
+  vus: 500,
+  iterations: 500,
   //duration: "30m",
 };
 
@@ -80,14 +80,18 @@ export default function () {
 
   responses.forEach((res, index) => {
     // Exit if failed
-    if (res.status !== 206) {
+    console.log(`${res.status} ${res.headers["X-Cache"]} `);
+    if (res.status !== 206
+      && res.headers["X-Cache"] == TCP_HIT)      
+       {
       console.log("---------------");
       console.error(
         `
-          Response: ${JSON.stringify(res.header)}
+          Response: ${JSON.stringify(res.headers["X-Cache"])}
           `
       );
     }
+    //console.log(`${res.headers["X-Cache"]}`)
   });
 
   const endTime = new Date();
