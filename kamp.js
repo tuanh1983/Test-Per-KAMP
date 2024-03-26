@@ -12,9 +12,8 @@ const csvData = new SharedArray("ListRange", function () {
 });
 
 export const options = {
-  //vus: 500,
-  //iterations: 500,
-  //duration: "30m",
+  vus: 500,
+  iterations: 500,
   stages: [
     // Warm-up stage: ramp up to 100 virtual users over 1 minute
     { duration: "10m", target: 500 },
@@ -37,26 +36,18 @@ const timeout = '30m';
 const thinktime = '15s';
 
 const commonHeaders = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  Accept: "*/*",
-  "Accept-Encoding": "identity",
-  "Accept-Language": "en-US,en;q=0.9",
+  //"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
   "Cache-Control": "no-cache, no-store",
-  Cookie:
-    "ai_user=6ti8SF6lcPwbdjXAhDoATr|2024-03-18T06:02:46.106Z; ai_session=0dt5oy8KckSxLZDtCTaT0H|1710752231070|1710752483144",
-  Referer:
-    "https://kamp.test.klimatilpasning.dk/frahavet/havvandpaaland?value=havvandpaaland_2_8",
+  Referer: "https://kamp.test.klimatilpasning.dk/frahavet/havvandpaaland?value=havvandpaaland_4_9",
   "Request-Context": "appId=cid-v1:ab04ffb7-e8c7-4d4b-82ec-b39b59088297",
-  "Request-Id": "|939dd7a1a5d34a6e8d847351180d316c.067f141fda9444ac",
-  "Sec-Ch-Ua":
-    '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+  "Request-Id": "|f64b6d00c81a4df589d004826523f7bb.a6621cce5d994a56",
+  "Sec-Ch-Ua": '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
   "Sec-Ch-Ua-Mobile": "?0",
   "Sec-Ch-Ua-Platform": "Windows",
   "Sec-Fetch-Dest": "empty",
   "Sec-Fetch-Mode": "cors",
   "Sec-Fetch-Site": "same-origin",
-  Traceparent: "00-939dd7a1a5d34a6e8d847351180d316c-067f141fda9444ac-01",
+  Traceparent: "00-f64b6d00c81a4df589d004826523f7bb-a6621cce5d994a56-01",
 };
 
 export default function () {
