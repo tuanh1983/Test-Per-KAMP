@@ -2,15 +2,7 @@ import http from "k6/http";
 import { SharedArray } from "k6/data";
 import papaparse from "https://jslib.k6.io/papaparse/5.1.1/index.js";
 
-function getRandomNumber() {
-  const randomNumber = Math.floor(Math.random() * 20);
-  const formattedNumber =
-    randomNumber < 10 ? "0" + randomNumber : String(randomNumber);
-  return formattedNumber;
-}
-
 const filePath = `./Data/KAMP_${getRandomNumber()}.csv`;
-console.log(filePath);
 
 const csvData = new SharedArray("ListRange", function () {
   return papaparse.parse(open(filePath), {
@@ -19,8 +11,8 @@ const csvData = new SharedArray("ListRange", function () {
 });
 
 export const options = {
-  vus: 10,
-  iterations: 10,
+  vus: 500,
+  iterations: 500,
   //duration: "30m",
 };
 
@@ -30,6 +22,7 @@ const baseUrl = "https://kamp.test.klimatilpasning.dk/data/flatgeobuf/2024/";
 
 const vej_stykke_paavirket = "vej_stykke_paavirket.fgb";
 const bygning_paavirket = "bygning_paavirket.fgb";
+const timeout = '300s';
 
 const commonHeaders = {
   "User-Agent":
@@ -58,6 +51,7 @@ export default function () {
   var requests = [];
   csvData.forEach((item) => {
     if (isValidByteRange(item.vej_stykke_paavirket)) {
+      //console.log(item.vej_stykke_paavirket);
       requests.push({
         method: "GET",
         url: baseUrl + vej_stykke_paavirket,
@@ -66,11 +60,14 @@ export default function () {
           headers: Object.assign({}, commonHeaders, {
             Range: item.vej_stykke_paavirket,
           }),
+          //set timeout
+          timeout: timeout, 
         },
       });
     }
 
     if (isValidByteRange(item.bygning_paavirket)) {
+      //console.log(item.bygning_paavirket);
       requests.push({
         method: "GET",
         url: baseUrl + bygning_paavirket,
@@ -88,8 +85,8 @@ export default function () {
 
   responses.forEach((res, index) => {
     // Exit if failed
-    console.log(`${res.status} ${res.headers["X-Cache"]} `);
-    if (res.status !== 206 && res.headers["X-Cache"] == TCP_HIT) {
+    //console.log(res.headers["X-Cache"] == 'TCP_HIT' );
+    if (res.status !== 206 && res.headers["X-Cache"] != 'TCP_HIT') {
       console.log("---------------");
       console.error(
         `
@@ -108,4 +105,11 @@ export default function () {
 function isValidByteRange(str) {
   const regex = /^(bytes=\d+-\d+)|(\d+-\d+\/\d+)$/;
   return regex.test(str);
+}
+
+function getRandomNumber() {
+  const randomNumber = Math.floor(Math.random() * 20);
+  const formattedNumber =
+    randomNumber < 10 ? "0" + randomNumber : String(randomNumber);
+  return formattedNumber;
 }
