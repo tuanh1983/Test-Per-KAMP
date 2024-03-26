@@ -12,9 +12,19 @@ const csvData = new SharedArray("ListRange", function () {
 });
 
 export const options = {
-  vus: 500,
+  //vus: 500,
   //iterations: 500,
-  duration: "30m",
+  //duration: "30m",
+  stages: [
+    // Warm-up stage: ramp up to 100 virtual users over 1 minute
+    { duration: "10m", target: 500 },
+    
+    // Sustained load stage: maintain 100 virtual users for 5 minutes
+    { duration: "10m", target: 500 },
+    
+    // Ramp-down stage: gradually decrease the number of virtual users to 0 over 1 minute
+    { duration: "10m", target: 0 },
+  ],
 };
 
 //const startTime = new Date();
@@ -24,6 +34,7 @@ const baseUrl = "https://kamp.test.klimatilpasning.dk/data/flatgeobuf/2024/";
 const vej_stykke_paavirket = "vej_stykke_paavirket.fgb";
 const bygning_paavirket = "bygning_paavirket.fgb";
 const timeout = '30m';
+const thinktime = '15s';
 
 const commonHeaders = {
   "User-Agent":
@@ -77,6 +88,8 @@ export default function () {
           headers: Object.assign({}, commonHeaders, {
             Range: item.bygning_paavirket,
           }),
+          //set timeout
+          timeout: timeout, 
         },
       });
     }
@@ -106,7 +119,7 @@ export default function () {
   //const endTime = new Date();
   //const duration = endTime - startTime;
   //console.log(`Transaction took ${duration} ms`);
-  sleep(3)
+  sleep(thinktime)
 }
 
 function isValidByteRange(str) {
