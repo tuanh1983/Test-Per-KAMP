@@ -23,7 +23,7 @@ const baseUrl = "https://kamp.test.klimatilpasning.dk/data/flatgeobuf/2024/";
 
 const vej_stykke_paavirket = "vej_stykke_paavirket.fgb";
 const bygning_paavirket = "bygning_paavirket.fgb";
-const timeout = '300s';
+const timeout = '30m';
 
 const commonHeaders = {
   "User-Agent":
@@ -87,18 +87,19 @@ export default function () {
   responses.forEach((res, index) => {
     // Exit if failed
     //console.log(res.headers["X-Cache"] == 'TCP_HIT' );
-    if (res.status !== 206 || res.headers["X-Cache"] != 'TCP_HIT') {
-      console.log("---------------");      
+    if (res.status !== 206 || res.headers["X-Cache"] != 'TCP_HIT'
+    || res.body.length < 100) {      
       console.error(
         `
+        ------------------------------
         Response status: ${JSON.stringify(res.status)}
         Response headers: ${JSON.stringify(res.headers["X-Cache"])}
-        Response size :  ${JSON.stringify(res.size)}
-        Response :  ${JSON.stringify(res.body.length)}
-
+        Response size :  ${JSON.stringify(res.size)}        
+        ------------------------------
         `
       );
     }
+    
     //console.log(`${res.headers["X-Cache"]}`)
   });
 
