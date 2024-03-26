@@ -3,8 +3,8 @@ import { SharedArray } from "k6/data";
 import papaparse from "https://jslib.k6.io/papaparse/5.1.1/index.js";
 import { sleep } from "k6";
 
-//const filePath = `./Data/KAMP_${getRandomNumber()}.csv`;
-const filePath = `./Data/KAMP_01.csv`;
+const filePath = `./Data/KAMP_${getRandomNumber()}.csv`;
+//const filePath = `./Data/KAMP_01.csv`;
 
 // Those params for environment setting
 const evn = 'test.'
@@ -123,7 +123,7 @@ function isValidByteRange(str) {
 function getRandomNumber() {
   const randomNumber = Math.floor(Math.random() * 20);
   const formattedNumber =
-    randomNumber < 10 ? "0" + randomNumber : String(randomNumber);
+    randomNumber < 3 ? "0" + randomNumber : String(randomNumber);
   return formattedNumber;
 }
 const csvData = new SharedArray("ListRange", function () {
