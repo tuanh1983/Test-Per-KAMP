@@ -1,6 +1,7 @@
 import http from "k6/http";
 import { SharedArray } from "k6/data";
 import papaparse from "https://jslib.k6.io/papaparse/5.1.1/index.js";
+import { sleep } from "k6";
 
 const filePath = `./Data/KAMP_${getRandomNumber()}.csv`;
 
@@ -12,11 +13,11 @@ const csvData = new SharedArray("ListRange", function () {
 
 export const options = {
   vus: 500,
-  iterations: 500,
-  //duration: "30m",
+  //iterations: 500,
+  duration: "30m",
 };
 
-const startTime = new Date();
+//const startTime = new Date();
 
 const baseUrl = "https://kamp.test.klimatilpasning.dk/data/flatgeobuf/2024/";
 
@@ -86,20 +87,25 @@ export default function () {
   responses.forEach((res, index) => {
     // Exit if failed
     //console.log(res.headers["X-Cache"] == 'TCP_HIT' );
-    if (res.status !== 206 && res.headers["X-Cache"] != 'TCP_HIT') {
-      console.log("---------------");
+    if (res.status !== 206 || res.headers["X-Cache"] != 'TCP_HIT') {
+      console.log("---------------");      
       console.error(
         `
-          Response: ${JSON.stringify(res.headers["X-Cache"])}
-          `
+        Response status: ${JSON.stringify(res.status)}
+        Response headers: ${JSON.stringify(res.headers["X-Cache"])}
+        Response size :  ${JSON.stringify(res.size)}
+        Response :  ${JSON.stringify(res.body.length)}
+
+        `
       );
     }
     //console.log(`${res.headers["X-Cache"]}`)
   });
 
-  const endTime = new Date();
-  const duration = endTime - startTime;
-  console.log(`Transaction took ${duration} ms`);
+  //const endTime = new Date();
+  //const duration = endTime - startTime;
+  //console.log(`Transaction took ${duration} ms`);
+  sleep(3)
 }
 
 function isValidByteRange(str) {
