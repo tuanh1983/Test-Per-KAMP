@@ -23,7 +23,8 @@ const duration_rampUp = '10m',duration_rampDown = '10m',duration = '10m';
 const commonHeaders = {
   //"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
   "Cache-Control": "no-cache, no-store",
-  Referer: `https://kamp.${evn}klimatilpasning.dk/frahavet/havvandpaaland?value=havvandpaaland_4_9`,
+ // Referer: `https://kamp.${evn}klimatilpasning.dk/frahavet/havvandpaaland?value=havvandpaaland_4_9`,
+  Referer:`https://kamp.test.klimatilpasning.dk/frahavet/havvandpaaland?value=havvandpaaland_3_7`,
   "Request-Context": "appId=cid-v1:ab04ffb7-e8c7-4d4b-82ec-b39b59088297",
   "Request-Id": "|f64b6d00c81a4df589d004826523f7bb.a6621cce5d994a56",
   "Sec-Ch-Ua": '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
